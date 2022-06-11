@@ -1,20 +1,25 @@
 package com.nbcb.networking.chap14MulticastSockets;
 
+import com.nbcb.networking.util.Constants;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.UnknownHostException;
 
+/**
+ * 这个代码，通过UDP协议，向组播内各个节点发送消息
+ */
 public class MulticastSender {
     public static void main(String[] args) {
 
         /**
          * address/port
          */
-        String hostName = "all-systems.mcast.net";
+        String hostName = Constants.BRODCAST_HOST;
         InetAddress ia = null;
-        int port = 4000;
+        int port = Constants.BRODCAST_PORT;
         try {
             ia = InetAddress.getByName(hostName);
         } catch (UnknownHostException e) {
@@ -35,7 +40,7 @@ public class MulticastSender {
          */
         MulticastSocket socket = null;
         try {
-            socket = new MulticastSocket();
+            socket = new MulticastSocket(port);
             socket.joinGroup(ia);
 
             /**

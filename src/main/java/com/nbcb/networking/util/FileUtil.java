@@ -4,6 +4,43 @@ import java.io.*;
 
 public class FileUtil {
 
+
+    /**
+     * InputStream -> File
+     * @param filePath
+     */
+    public static void streamToFile(InputStream in, String filePath){
+        BufferedOutputStream bos = null;
+        BufferedInputStream bis = null;
+        try {
+
+            bis = new BufferedInputStream(in);
+            bos = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+            int bytesRead = 0;
+            byte[] buffer = new byte[2048];
+            while ((bytesRead = bis.read(buffer, 0, 2048)) != -1) {
+                bos.write(buffer, 0, bytesRead);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (bos != null) {
+                    bos.close();
+                }
+
+                if (bis != null) {
+                    bis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * 根据文件路径，返回该文件的二进制流
      * @param filePath

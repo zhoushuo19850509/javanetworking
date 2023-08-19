@@ -1,5 +1,6 @@
 package com.nbcb.networking.ftp.singlefile;
 
+import com.nbcb.networking.util.ByteUtil;
 import com.nbcb.networking.util.FileUtil;
 
 import java.io.IOException;
@@ -36,6 +37,25 @@ public class FTPServer {
 
                 is = connection.getInputStream();
 
+                /**
+                 * (1)读取byte of (json) length
+                 */
+                byte[] byteInt = new byte[4];
+                is.read(byteInt);
+                int length = ByteUtil.byte2int(byteInt);
+                System.out.println("length of json: " + length);
+
+                /**
+                 * (2)读取byte of json
+                 */
+                byte[] byteJson = new byte[length];
+                is.read(byteJson);
+                String json = ByteUtil.byte2String(byteJson);
+                System.out.println("json from client: " + json);
+
+                /**
+                 * (3)读取文件
+                 */
                 FileUtil.streamToFile(is, targetFilePath);
                 System.out.println("ftp server finish save file to local ...");
             }

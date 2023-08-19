@@ -18,7 +18,7 @@ public class FileUtil {
             bos = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
             int bytesRead = 0;
             byte[] buffer = new byte[2048];
-            while ((bytesRead = bis.read(buffer, 0, 2048)) != -1) {
+            while ((bytesRead = bis.read(buffer)) != -1) {
                 bos.write(buffer, 0, bytesRead);
             }
         } catch (Exception e) {
